@@ -3,13 +3,13 @@
 using UnrealBuildTool;
 using System.Collections.Generic;
 
-public class ThatGameEditorTarget : TargetRules
+public class MyFallEditorTarget : TargetRules
 {
-	public ThatGameEditorTarget( TargetInfo Target) : base(Target)
+	public MyFallEditorTarget( TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Editor;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
 		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_1;
-		ExtraModuleNames.Add("ThatGame");
+		ExtraModuleNames.Add("MyFall");
 	}
 }
