@@ -17,5 +17,8 @@ class MYFALL_API AMyFallGameModeBase : public AGameModeBase
 	
 public:
 	UFUNCTION(BlueprintCallable)
-	void OpenNextLevelCPP(TSoftObjectPtr<UWorld> Level);
+	void OpenNextLevel(TSoftObjectPtr<UWorld> Level);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool WaitingForLevelTransition;
 };

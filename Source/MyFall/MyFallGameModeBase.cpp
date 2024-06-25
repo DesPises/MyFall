@@ -3,7 +3,7 @@
 
 #include "MyFallGameModeBase.h"
 
-void AMyFallGameModeBase::OpenNextLevelCPP(TSoftObjectPtr<UWorld> Level)
+void AMyFallGameModeBase::OpenNextLevel(TSoftObjectPtr<UWorld> Level)
 {
 	UGameplayStatics::OpenLevelBySoftObjectPtr(this, Level);
 }
