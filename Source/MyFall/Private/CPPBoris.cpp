@@ -3,6 +3,7 @@
 
 #include "CPPBoris.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
 
 ACPPBoris::ACPPBoris()
 {
@@ -34,5 +35,22 @@ void ACPPBoris::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+void ACPPBoris::Move(float XValue, float YValue)
+{
+	if (CanMove)
+	{
+		auto ControlRotation = GetControlRotation();
+		auto HorizontalInput = UKismetMathLibrary::GetRightVector(FRotator(0, ControlRotation.Yaw, ControlRotation.Roll));
+		auto VerticalInput = UKismetMathLibrary::GetForwardVector(FRotator(0, ControlRotation.Yaw, 0));
+		AddMovementInput(HorizontalInput, XValue);
+		AddMovementInput(VerticalInput, YValue);
+		// Swing on a rope
+		if (IsValid(RopePartRef))
+		{
+			RopePartRef->AddImpulse(VerticalInput * 500 * YValue, NAME_None, false);
+		}
+	}
 }
 
