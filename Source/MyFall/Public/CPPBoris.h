@@ -20,8 +20,14 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
+	// Functions
+
+	// Input
 	UFUNCTION(BlueprintCallable)
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UFUNCTION(BlueprintCallable)
+	void Move(float XValue, float YValue);
 
 	// Variables
 
@@ -100,4 +106,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Parameters")
 	int HP = 3;
 
+	// Components
+	UPROPERTY(BlueprintReadWrite, Category = "Components")
+	UPrimitiveComponent* RopePartRef;
 };
