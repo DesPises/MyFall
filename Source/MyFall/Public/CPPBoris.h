@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "EnhancedInputComponent.h"
 #include "GameFramework/Character.h"
 #include "CPPBoris.generated.h"
 
@@ -20,14 +21,18 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
-	// Functions
-
 	// Input
 	UFUNCTION(BlueprintCallable)
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION(BlueprintCallable)
 	void Move(float XValue, float YValue);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UEnhancedInputComponent* EnhancedInputComponent = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
+	UInputAction* ActionMove = nullptr;
 
 	// Variables
 

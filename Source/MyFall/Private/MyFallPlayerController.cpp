@@ -4,6 +4,8 @@
 #include "MyFallPlayerController.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include <EnhancedInputSubsystems.h>
+
 
 void AMyFallPlayerController::BeginPlay()
 {
@@ -11,4 +13,15 @@ void AMyFallPlayerController::BeginPlay()
 
 	auto CurrentGameMode = UGameplayStatics::GetGameMode(GetWorld());
 	AsMyFallGameModeBase = Cast<AMyFallGameModeBase>(CurrentGameMode);
+
+	SetInputMappingContext();
+}
+
+void AMyFallPlayerController::SetInputMappingContext()
+{
+	APlayerController* PC = Cast<APlayerController>(UGameplayStatics::GetPlayerController(this, 0));
+
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer());
+	Subsystem->ClearAllMappings();
+	Subsystem->AddMappingContext(InputMappingContext, 0);
 }
