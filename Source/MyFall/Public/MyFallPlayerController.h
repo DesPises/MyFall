@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
-//#include "InputMappingContext.h"
+#include "InputMappingContext.h"
 #include <MyFall/MyFallGameModeBase.h>
 #include "MyFallPlayerController.generated.h"
 
@@ -21,7 +21,8 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	AMyFallGameModeBase* AsMyFallGameModeBase;
 
-	//TODO: convert bp to cpp
-	//UPROPERTY(BlueprintReadOnly)
-	//TSoftObjectPtr<UInputMappingContext> InputMapping;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
+	class UInputMappingContext* InputMappingContext;
+
+	void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent);
 };
