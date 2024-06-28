@@ -24,5 +24,5 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
 	class UInputMappingContext* InputMappingContext;
 
-	void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent);
+	void SetInputMappingContext();
 };

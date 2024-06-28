@@ -14,10 +14,10 @@ void AMyFallPlayerController::BeginPlay()
 	auto CurrentGameMode = UGameplayStatics::GetGameMode(GetWorld());
 	AsMyFallGameModeBase = Cast<AMyFallGameModeBase>(CurrentGameMode);
 
-	SetupPlayerInputComponent(nullptr);
+	SetInputMappingContext();
 }
 
-void AMyFallPlayerController::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AMyFallPlayerController::SetInputMappingContext()
 {
 	APlayerController* PC = Cast<APlayerController>(UGameplayStatics::GetPlayerController(this, 0));
 
