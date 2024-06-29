@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "InputMappingContext.h"
 #include <MyFall/MyFallGameModeBase.h>
+#include "EnhancedInputComponent.h"
 #include "MyFallPlayerController.generated.h"
 
 UCLASS()
@@ -17,6 +18,11 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	virtual void BeginPlay() override;
 
+	UFUNCTION()
+	void TriggerLevelTransition();
+
+	virtual void OnPossess(APawn* aPawn);
+
 public:
 	UPROPERTY(BlueprintReadOnly)
 	AMyFallGameModeBase* AsMyFallGameModeBase;
@@ -25,4 +31,12 @@ public:
 	class UInputMappingContext* InputMappingContext;
 
 	void SetInputMappingContext();
+
+private:
+	UPROPERTY()
+	UEnhancedInputComponent* EnhancedInputComponent = nullptr;
+
+	UPROPERTY(EditDefaultsOnly)
+	UInputAction* ActionJump = nullptr;
+
 };
