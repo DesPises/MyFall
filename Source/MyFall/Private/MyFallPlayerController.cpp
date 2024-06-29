@@ -17,6 +17,27 @@ void AMyFallPlayerController::BeginPlay()
 	SetInputMappingContext();
 }
 
+void AMyFallPlayerController::TriggerLevelTransition()
+{
+	if (AsMyFallGameModeBase->WaitingForLevelTransition)
+	{
+		AsMyFallGameModeBase->OpenNextLevel(AsMyFallGameModeBase->NextLevel);
+	}
+}
+
+void AMyFallPlayerController::OnPossess(APawn* aPawn)
+{
+	Super::OnPossess(aPawn);
+
+	// Handle Level Transition input
+	EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent);
+	if (ActionJump)
+	{
+		EnhancedInputComponent->BindAction(ActionJump, ETriggerEvent::Completed,
+			this, &AMyFallPlayerController::TriggerLevelTransition);
+	}
+}
+
 void AMyFallPlayerController::SetInputMappingContext()
 {
 	APlayerController* PC = Cast<APlayerController>(UGameplayStatics::GetPlayerController(this, 0));
