@@ -1,8 +1,8 @@
-﻿My Fall
+## ﻿My Fall
 
-Design Document
+### Design Document
 
-General overview
+#### General overview
 
 Game genre - 3D puzzle with the elements of platformer, stealth and action
 
