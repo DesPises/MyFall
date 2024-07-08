@@ -22,7 +22,7 @@ References:
 
 ![](Aspose.Words.4a4ebed6-b2d5-4340-8bb7-8277c11fe624.003.jpeg)
 
-<a name="_s9u68ock28th"></a> #### Player control
+#### Player control
 
 Character is human
 
