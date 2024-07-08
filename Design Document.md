@@ -2,11 +2,11 @@
 
 ## Design Document
 
-### General overview
+## General overview
 
 Game genre - 3D puzzle with the elements of platformer, stealth and action
 
-#### Visual style
+### Visual style
 
 3D assets style - Low-poly minimalism
 
@@ -22,7 +22,7 @@ References:
 
 ![](Aspose.Words.4a4ebed6-b2d5-4340-8bb7-8277c11fe624.003.jpeg)
 
-#### Player control
+### Player control
 
 Character is human
 
@@ -42,7 +42,7 @@ Space (mid-air) – climb / wall jump
 
 LMB (mid-air near rope) – rope riding
 
-#### Core gameplay
+### Core gameplay
 
 During the level player has to solve simple puzzles to open and reach the door, set traps and avoid getting close to the enemies. There’re also levels with timer (REMOVED: changed my mind because timer doesn’t look appropriate)
 
@@ -61,13 +61,13 @@ Lose all HP (by getting catched by enemies or stepping on a trap)
 
 Miss the timer on the levels with the timer (REMOVED)
 
-#### Gameplay progress
+### Gameplay progress
 
 Through the levels obstacles, enemies and puzzles become harder to overcome and solve
 
 Gameplay systems and mechanics
 
-#### Systems
+### Systems
 
 *Walk* – just an average person walk
 
@@ -75,7 +75,7 @@ Gameplay systems and mechanics
 
 *Mouse look* – 3<sup>rd</sup> person camera that can move around character without affecting his rotation
 
-#### Mechanics
+### Mechanics
 
 *Grab* – small objects can be grabbed and replaced to the floor or another object
 
@@ -126,7 +126,7 @@ Big (>2m) – go around / make a tower of small objects to jump on / mix of smal
 
 Wall – level boundaries
 
-#### AI:
+### AI:
 
 Enemies have two main states: patrolling and chasing
 
@@ -143,7 +143,7 @@ NOTES:
 - If the enemy can’t reach player’s location,  he throws a pie towards player and then moves back to patrolling
 
 
-#### Parameters
+### Parameters
 
 Walk speed should feel like average person walking - 300 cm/s
 
@@ -159,7 +159,7 @@ Enemy’s run speed is almost equal to player’s – 250 cm/s
 
 
 
-### Level design plan
+## Level design plan
 
 1. Basic movement training (backstage)
    1. Small static objects to jump over
@@ -289,13 +289,13 @@ location reference
 
 
 
-### Storyline
+## Storyline
 
-#### Lore
+### Lore
 
 Main character is a show man named Boris. He was famous for toilet humor on local TV. And now he works as an actor in TV series for kids. His role is the bad guy making acts of sabotage and laughing on the good guys. His stage name is Mr. Bad. He’s not really enjoying the job, but his sense of humor makes him a star of this show. Boris is respected by the director and colleagues, so the atmosphere of communication is in his hands. Most parts of scenario become more powerful with his improvisations. Although their sponsor is always angry because of the bills issued by Boris. People are afraid of losing their job, so they make a tiny pressure on Boris in small talks. It’s becoming harder to generate jokes, because everything looks cheap and similar. Boris is tired of an unpromising career. He’s going to risk it and make the show great.
 
-#### Scenario
+### Scenario
 
 The first mention of each new mechanics is highlighted in Red
 
@@ -409,9 +409,9 @@ Last level – “What have you done?”
 
 Boris sets a banana peal trap near “chocolate mixer”. Actor falls down. Decorations smoothly disappear. Boris finds himself in a real factory. He smiles insanely and whispers: “Cut…”
 
-### Appearance
+## Appearance
 
-#### Animations
+### Animations
 
 1. Player
    1. Idle
@@ -436,19 +436,19 @@ Boris sets a banana peal trap near “chocolate mixer”. Actor falls down. Deco
    1. Walk with tied hands by the lifebuoy
    1. Recovery after running
 
-#### Sound design
+### Sound design
 
 Music should feel like heart beat, getting faster while chase, getting slower while hiding
 
 Body moves and interactions with environment are accompanied with cartoon-lke sounds, applause and laughter of “audience”
 
-#### VFX
+### VFX
 
 Minimalistic small particles
 
 - Pie trap and pie throw makes bigger cartoon-like pie pieces particles
 
-#### User interface
+### User interface
 
 Only nescesarry things (e.g. timer, “coins” counter appearing for a few sec)
 
@@ -458,7 +458,7 @@ HP is Boris’s face emotion (sad = low hp, happy = full hp)
 
 Additional information about workflow
 
-### Programming and game design notes
+## Programming and game design notes
 
 \- Make sure “generate overlap events” is checked for all the obstalces (to call “stop grabbing” on overlapping “GrabbedObjectBottomCollision” by any obstacle)
 
