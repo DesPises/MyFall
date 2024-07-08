@@ -89,10 +89,10 @@ Gameplay systems and mechanics
 
 *“Coins”* – collectibles that are NOT necessary for level completion. Player gets better score and hears applause after collecting “coins”. They give a speed boost for 3 seconds.
 
-*Traps* – being triggered by the player or the enemies, traps can “catch” them
+*Traps* – being triggered by the player or the enemies, traps can “catch” them.
 All the traps have preset locations and they kind of change the geometry of the level. It makes player think carefully before setting traps. If someone gets catched by a trap, it can be set once again on the same spot.
 
-*Extra abilities* – sometimes to collect “coins”, player has to perform “tricks” using *extra abilities*. They are also useful to overcome some obstacles and solve the puzzle or escape from the enemies.
+*Extra abilities* – sometimes to collect “coins”, player has to perform “tricks” using *extra abilities*. They are also useful to overcome obstacles, solve the puzzle or escape from the enemies.
 
 *Traps types – their effect:*
 
