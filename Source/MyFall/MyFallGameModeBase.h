@@ -15,13 +15,25 @@ class MYFALL_API AMyFallGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+protected:
+	virtual void BeginPlay() override;
+
 public:
 	UFUNCTION(BlueprintCallable)
 	void OpenNextLevel(TSoftObjectPtr<UWorld> Level);
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UFUNCTION(BlueprintCallable)
+	void SetInputModeUI();
+
+	UFUNCTION(BlueprintCallable)
+	void SetInputModeGame();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	bool WaitingForLevelTransition;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	TSoftObjectPtr<UWorld> NextLevel;
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void StartLevelTransition(const UWorld* NextLevelPtr, const bool ApplauseSound);
 };
