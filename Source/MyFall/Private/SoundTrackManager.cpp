@@ -2,26 +2,44 @@
 
 
 #include "SoundTrackManager.h"
+#include "Components/AudioComponent.h"
+#include "Kismet/GameplayStatics.h"
 
-// Sets default values
 ASoundTrackManager::ASoundTrackManager()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 }
 
-// Called when the game starts or when spawned
+void ASoundTrackManager::FadeMusicIn()
+{
+	if (MusicAsset)
+	{
+		AudioComponent->FadeIn(FadeInDuration);
+	}
+}
+
+void ASoundTrackManager::FadeMusicOut()
+{
+	if (MusicAsset)
+	{
+		AudioComponent->FadeOut(1.f, 0);
+	}
+}
+
 void ASoundTrackManager::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	if (MusicAsset)
+	{
+		AudioComponent = UGameplayStatics::SpawnSound2D(this, MusicAsset);
+		if (AudioComponent)
+		{
+			FadeMusicIn();
+		}
+	}
 }
 
-// Called every frame
-void ASoundTrackManager::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 
-}
 

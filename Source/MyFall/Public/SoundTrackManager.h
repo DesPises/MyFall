@@ -12,15 +12,23 @@ class MYFALL_API ASoundTrackManager : public AActor
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	ASoundTrackManager();
 
+	UFUNCTION(BlueprintCallable)
+	void FadeMusicIn();
+	UFUNCTION(BlueprintCallable)
+	void FadeMusicOut();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UAudioComponent* AudioComponent;
+
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+private:	
+	UPROPERTY(EditAnywhere)
+	float FadeInDuration;
 
+	UPROPERTY(EditAnywhere)
+	class USoundBase* MusicAsset;
 };

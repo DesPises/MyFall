@@ -2,17 +2,32 @@
 
 
 #include "MyFallGameModeBase.h"
+#include "Kismet/KismetSystemLibrary.h"
+#include "Kismet/GameplayStatics.h"
+#include "LevelFinish.h"
 
 void AMyFallGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 
 	SetInputModeGame();
+	UGameplayStatics::GetActorOfClass(this, ALevelFinish::StaticClass());
 }
 
-void AMyFallGameModeBase::OpenNextLevel(TSoftObjectPtr<UWorld> Level)
+void AMyFallGameModeBase::OpenNextLevel()
 {
-	UGameplayStatics::OpenLevelBySoftObjectPtr(this, Level);
+	if (NextLevel)
+	{
+		UGameplayStatics::OpenLevelBySoftObjectPtr(this, NextLevel);
+	}
+}
+
+void AMyFallGameModeBase::StartLevelTransition_Implementation(const UWorld* NextLevelRef, const bool ApplauseSound)
+{
+	if (NextLevelRef)
+	{
+		NextLevel = NextLevelRef;
+	}
 }
 
 void AMyFallGameModeBase::SetInputModeUI()
@@ -29,9 +44,6 @@ void AMyFallGameModeBase::SetInputModeGame()
 	PlayerController->bShowMouseCursor = false;
 }
 
-void AMyFallGameModeBase::StartLevelTransition_Implementation(const UWorld* NextLevelPtr, const bool ApplauseSound)
-{
-	NextLevel = NextLevelPtr;
-}
+
 
 

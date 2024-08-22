@@ -22,7 +22,7 @@ void AMyFallPlayerController::TriggerLevelTransition()
 {
 	if (AsMyFallGameModeBase->WaitingForLevelTransition)
 	{
-		AsMyFallGameModeBase->OpenNextLevel(AsMyFallGameModeBase->NextLevel);
+		AsMyFallGameModeBase->OpenNextLevel();
 	}
 }
 

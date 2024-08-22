@@ -4,12 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "Kismet/GameplayStatics.h"
 #include "MyFallGameModeBase.generated.h"
 
-/**
- * 
- */
+class ASoundTrackManager;
+
 UCLASS()
 class MYFALL_API AMyFallGameModeBase : public AGameModeBase
 {
@@ -18,9 +16,15 @@ class MYFALL_API AMyFallGameModeBase : public AGameModeBase
 protected:
 	virtual void BeginPlay() override;
 
+private:
+	ASoundTrackManager* SoundtrackManager;
+
 public:
 	UFUNCTION(BlueprintCallable)
-	void OpenNextLevel(TSoftObjectPtr<UWorld> Level);
+	void OpenNextLevel();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void StartLevelTransition(const UWorld* NextLevelRef, const bool ApplauseSound);
 
 	UFUNCTION(BlueprintCallable)
 	void SetInputModeUI();
@@ -34,6 +38,4 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	TSoftObjectPtr<UWorld> NextLevel;
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	void StartLevelTransition(const UWorld* NextLevelPtr, const bool ApplauseSound);
 };
