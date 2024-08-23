@@ -27,7 +27,7 @@ protected:
 
 private:	
 	UPROPERTY(EditAnywhere)
-	float FadeInDuration;
+	float FadeInDuration = 1.f;
 
 	UPROPERTY(EditAnywhere)
 	class USoundBase* MusicAsset;

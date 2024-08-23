@@ -31,6 +31,8 @@ void ACPPBoris::Tick(float DeltaTime)
 	}
 }
 
+// Input
+
 void ACPPBoris::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);

@@ -12,34 +12,42 @@ void AMyFallPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// Set defaults
 	auto CurrentGameMode = UGameplayStatics::GetGameMode(GetWorld());
-	AsMyFallGameModeBase = Cast<AMyFallGameModeBase>(CurrentGameMode);
+	MyFallGameModeBase = Cast<AMyFallGameModeBase>(CurrentGameMode);
 
 	SetInputMappingContext();
+
+	// Fade in from black screen
+	UUserWidget* BlackScreen = CreateWidget(this, BlackscreenEndTransitionClass);
+	if (BlackScreen)
+	{
+		BlackScreen->AddToViewport();
+	}
 }
 
 void AMyFallPlayerController::TriggerLevelTransition()
 {
-	if (AsMyFallGameModeBase->WaitingForLevelTransition)
+	if (MyFallGameModeBase->WaitingForLevelTransition)
 	{
-		AsMyFallGameModeBase->OpenNextLevel();
+		MyFallGameModeBase->OpenNextLevel();
 	}
 }
 
 void AMyFallPlayerController::HandlePause()
 {
-	if (AsMyFallGameModeBase)
+	if (MyFallGameModeBase)
 	{
 		if (UGameplayStatics::IsGamePaused(this))
 		{
 			UGameplayStatics::SetGamePaused(this, false);
-			AsMyFallGameModeBase->SetInputModeGame();
+			MyFallGameModeBase->SetInputModeGame();
 			DestroyPauseMenuWidgets();
 		}
 		else
 		{
 			UGameplayStatics::SetGamePaused(this, true);
-			AsMyFallGameModeBase->SetInputModeUI();
+			MyFallGameModeBase->SetInputModeUI();
 			PauseWidget = CreateWidget(this, PauseWidgetClass);
 			if (PauseWidget)
 			{
@@ -60,6 +68,7 @@ void AMyFallPlayerController::OnPossess(APawn* aPawn)
 		EnhancedInputComponent->BindAction(ActionJump, ETriggerEvent::Completed,
 			this, &AMyFallPlayerController::TriggerLevelTransition);
 	}
+
 	// Handle pause
 	if (ActionPause)
 	{

@@ -25,9 +25,9 @@ private:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelInfo")
 	int LevelIndex;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelInfo")
 	TSoftObjectPtr<UWorld> NextLevel;
 };

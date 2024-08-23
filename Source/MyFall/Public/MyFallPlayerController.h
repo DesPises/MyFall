@@ -20,26 +20,31 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	virtual void BeginPlay() override;
 
+	virtual void OnPossess(APawn* aPawn);
+
 	UFUNCTION()
 	void TriggerLevelTransition();
+
 	UFUNCTION()
 	void HandlePause();
 
-	virtual void OnPossess(APawn* aPawn);
+	UPROPERTY(BlueprintReadOnly)
+	AMyFallGameModeBase* MyFallGameModeBase;
 
 public:
-	UPROPERTY(BlueprintReadOnly)
-	AMyFallGameModeBase* AsMyFallGameModeBase;
-
+	// Input
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
 	class UInputMappingContext* InputMappingContext;
 
 	void SetInputMappingContext();
 
+	// Widgets
 	UPROPERTY(BlueprintReadWrite)
 	UUserWidget* PauseWidget;
+
 	UPROPERTY(BlueprintReadWrite)
 	UUserWidget* SettingsWidget;
+
 	UPROPERTY(BlueprintReadWrite)
 	UUserWidget* KeyBindingsWidget;
 
@@ -52,12 +57,18 @@ public:
 
 	void CreateWinScreen();
 
+	// Widget to fade in from black screen at the start of each level
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UUserWidget> BlackscreenEndTransitionClass;
+
 private:
+	// Input
 	UPROPERTY()
 	UEnhancedInputComponent* EnhancedInputComponent = nullptr;
 
 	UPROPERTY(EditDefaultsOnly)
 	UInputAction* ActionJump = nullptr;
+
 	UPROPERTY(EditDefaultsOnly)
 	UInputAction* ActionPause = nullptr;
 
