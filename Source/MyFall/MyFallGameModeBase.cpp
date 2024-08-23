@@ -5,13 +5,19 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "LevelFinish.h"
+#include "SoundtrackManager.h"
+#include "Trap.h"
+#include "CPPBoris.h"
+#include "MyFallPlayerController.h"
 
 void AMyFallGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 
 	SetInputModeGame();
-	UGameplayStatics::GetActorOfClass(this, ALevelFinish::StaticClass());
+	
+	PlayerCharacterRef = Cast<ACPPBoris>(UGameplayStatics::GetPlayerCharacter(this, 0));
+	PlayerControllerRef = Cast<AMyFallPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
 }
 
 void AMyFallGameModeBase::OpenNextLevel()
@@ -22,12 +28,44 @@ void AMyFallGameModeBase::OpenNextLevel()
 	}
 }
 
-void AMyFallGameModeBase::StartLevelTransition_Implementation(const UWorld* NextLevelRef, const bool ApplauseSound)
+void AMyFallGameModeBase::StartLevelTransition(const UWorld* NextLevelRef, const bool ApplauseSound)
 {
+	if (PlayerCharacterRef)
+	{
+		PlayerCharacterRef->DisableMovement();
+	}
+
 	if (NextLevelRef)
 	{
 		NextLevel = NextLevelRef;
 	}
+
+	if (SoundtrackManager)
+	{
+		SoundtrackManager->FadeMusicOut();
+	}
+	if (ApplauseSound)
+	{
+		UGameplayStatics::PlaySound2D(this, ApplauseSoundAsset);
+	}
+
+	// Count worked traps for end level statistics
+	CountWorkedTraps();
+
+	// Crteate win screen
+	if (PlayerControllerRef)
+	{
+		PlayerControllerRef->CreateWinScreen();
+	}
+
+	// Set is ready for level transition W/ 1.5 sec delay
+	FTimerHandle UnusedHandle;
+	GetWorldTimerManager().SetTimer(UnusedHandle, this, &AMyFallGameModeBase::ReadyForLevelTransition, 1.5f, false);
+}
+
+void AMyFallGameModeBase::ReadyForLevelTransition()
+{
+	WaitingForLevelTransition = true;
 }
 
 void AMyFallGameModeBase::SetInputModeUI()
@@ -42,6 +80,22 @@ void AMyFallGameModeBase::SetInputModeGame()
 	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(this, 0);
 	PlayerController->SetInputMode(FInputModeGameOnly());
 	PlayerController->bShowMouseCursor = false;
+}
+
+void AMyFallGameModeBase::CountWorkedTraps()
+{
+	TArray<AActor*> TrapsOnLevel;
+	UGameplayStatics::GetAllActorsOfClass(this, ATrap::StaticClass(), TrapsOnLevel);
+	if (TrapsOnLevel.Num() >= 0)
+	{
+		for (AActor* Trap : TrapsOnLevel)
+		{
+			if (Cast<ATrap>(Trap)->WorkedOnEnemyAtLeastOnce)
+			{
+				WorkedTraps++;
+			}
+		}
+	}
 }
 
 

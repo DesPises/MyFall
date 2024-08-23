@@ -43,6 +43,15 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	UUserWidget* KeyBindingsWidget;
 
+	// Win screen
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UUserWidget> LevelEndScreenClass;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UUserWidget> BlackscreenStartTransitionClass;
+
+	void CreateWinScreen();
+
 private:
 	UPROPERTY()
 	UEnhancedInputComponent* EnhancedInputComponent = nullptr;

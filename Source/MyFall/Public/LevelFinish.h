@@ -6,21 +6,28 @@
 #include "GameFramework/Actor.h"
 #include "LevelFinish.generated.h"
 
+class UBoxComponent;
+
 UCLASS()
 class MYFALL_API ALevelFinish : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	ALevelFinish();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+private:
+	UBoxComponent* BoxCollision = nullptr;
+
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	int LevelIndex;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TSoftObjectPtr<UWorld> NextLevel;
 };

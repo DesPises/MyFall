@@ -54,3 +54,17 @@ void ACPPBoris::Move(float XValue, float YValue)
 	}
 }
 
+void ACPPBoris::EnableMovement()
+{
+	CanMove = true;
+	CanGrab = true;
+	CanInteract = true;
+}
+
+void ACPPBoris::DisableMovement()
+{
+	CanMove = false;
+	CanGrab = false;
+	CanInteract = false;
+}
+

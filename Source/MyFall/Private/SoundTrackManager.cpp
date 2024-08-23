@@ -5,13 +5,13 @@
 #include "Components/AudioComponent.h"
 #include "Kismet/GameplayStatics.h"
 
-ASoundTrackManager::ASoundTrackManager()
+ASoundtrackManager::ASoundtrackManager()
 {
 	PrimaryActorTick.bCanEverTick = false;
 
 }
 
-void ASoundTrackManager::FadeMusicIn()
+void ASoundtrackManager::FadeMusicIn()
 {
 	if (MusicAsset)
 	{
@@ -19,7 +19,7 @@ void ASoundTrackManager::FadeMusicIn()
 	}
 }
 
-void ASoundTrackManager::FadeMusicOut()
+void ASoundtrackManager::FadeMusicOut()
 {
 	if (MusicAsset)
 	{
@@ -27,7 +27,7 @@ void ASoundTrackManager::FadeMusicOut()
 	}
 }
 
-void ASoundTrackManager::BeginPlay()
+void ASoundtrackManager::BeginPlay()
 {
 	Super::BeginPlay();
 	

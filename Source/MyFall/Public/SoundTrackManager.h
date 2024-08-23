@@ -4,15 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "SoundTrackManager.generated.h"
+#include "SoundtrackManager.generated.h"
 
 UCLASS()
-class MYFALL_API ASoundTrackManager : public AActor
+class MYFALL_API ASoundtrackManager : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
-	ASoundTrackManager();
+	ASoundtrackManager();
 
 	UFUNCTION(BlueprintCallable)
 	void FadeMusicIn();

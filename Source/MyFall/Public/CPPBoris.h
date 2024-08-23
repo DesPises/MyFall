@@ -34,6 +34,12 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
 	UInputAction* ActionMove = nullptr;
 
+	UFUNCTION(BlueprintCallable)
+	void EnableMovement();
+
+	UFUNCTION(BlueprintCallable)
+	void DisableMovement();
+
 	// Variables
 
 	// States

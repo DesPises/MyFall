@@ -6,7 +6,10 @@
 #include "GameFramework/GameModeBase.h"
 #include "MyFallGameModeBase.generated.h"
 
-class ASoundTrackManager;
+class ASoundtrackManager;
+class UUserWidget;
+class ACPPBoris;
+class AMyFallPlayerController;
 
 UCLASS()
 class MYFALL_API AMyFallGameModeBase : public AGameModeBase
@@ -17,25 +20,42 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-	ASoundTrackManager* SoundtrackManager;
+	ASoundtrackManager* SoundtrackManager;
+
+	ACPPBoris* PlayerCharacterRef;
+	AMyFallPlayerController* PlayerControllerRef;
+
+	void ReadyForLevelTransition();
 
 public:
+	// Level transition
 	UFUNCTION(BlueprintCallable)
 	void OpenNextLevel();
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UFUNCTION(BlueprintCallable)
 	void StartLevelTransition(const UWorld* NextLevelRef, const bool ApplauseSound);
-
-	UFUNCTION(BlueprintCallable)
-	void SetInputModeUI();
-
-	UFUNCTION(BlueprintCallable)
-	void SetInputModeGame();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	bool WaitingForLevelTransition;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	TSoftObjectPtr<UWorld> NextLevel;
+
+	// Input modes
+	UFUNCTION(BlueprintCallable)
+	void SetInputModeUI();
+
+	UFUNCTION(BlueprintCallable)
+	void SetInputModeGame();
+
+	// Statistics
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Statistics")
+	int WorkedTraps = 0;
+
+	void CountWorkedTraps();
+	
+	// Misc
+	UPROPERTY(EditAnywhere)
+	USoundBase* ApplauseSoundAsset;
 
 };

@@ -77,6 +77,21 @@ void AMyFallPlayerController::SetInputMappingContext()
 	Subsystem->AddMappingContext(InputMappingContext, 0);
 }
 
+void AMyFallPlayerController::CreateWinScreen()
+{
+	UUserWidget* BlackScreen = CreateWidget(this, BlackscreenStartTransitionClass);
+	if (BlackScreen)
+	{
+		BlackScreen->AddToViewport();
+	}
+
+	UUserWidget* LevelEndScreen = CreateWidget(this, LevelEndScreenClass);
+	if (LevelEndScreen)
+	{
+		LevelEndScreen->AddToViewport();
+	}
+}
+
 void AMyFallPlayerController::DestroyPauseMenuWidgets()
 {
 	if (PauseWidget)
