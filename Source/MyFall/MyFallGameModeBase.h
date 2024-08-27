@@ -51,7 +51,20 @@ public:
 	// Statistics
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Statistics")
 	int WorkedTraps = 0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Statistics")
+	int CollectedCoins = 0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Statistics")
+	int CoinsOnLevel = 0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Statistics")
+	int TrapsActivatedByPlayer = 0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Statistics")
+	int InitiallyInactiveTrapsOnLevel = 0;
 
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AActor> CollectibleClass;
+
+	void CountCollectiblesOnLevel();
+	void CountInactiveTraps();
 	void CountWorkedTraps();
 	
 	// Misc

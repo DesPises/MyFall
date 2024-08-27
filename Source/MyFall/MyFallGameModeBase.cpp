@@ -16,8 +16,12 @@ void AMyFallGameModeBase::BeginPlay()
 
 	SetInputModeGame();
 	
+	// Defaults
 	PlayerCharacterRef = Cast<ACPPBoris>(UGameplayStatics::GetPlayerCharacter(this, 0));
 	PlayerControllerRef = Cast<AMyFallPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
+	
+	CountCollectiblesOnLevel();
+	CountInactiveTraps();
 }
 
 void AMyFallGameModeBase::OpenNextLevel()
@@ -80,6 +84,32 @@ void AMyFallGameModeBase::SetInputModeGame()
 	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(this, 0);
 	PlayerController->SetInputMode(FInputModeGameOnly());
 	PlayerController->bShowMouseCursor = false;
+}
+
+void AMyFallGameModeBase::CountCollectiblesOnLevel()
+{
+	TArray<AActor*> Collectibles;
+	UGameplayStatics::GetAllActorsOfClass(this, CollectibleClass, Collectibles);
+	if (Collectibles.Num() > 0)
+	{
+		CoinsOnLevel = Collectibles.Num();
+	}
+}
+
+void AMyFallGameModeBase::CountInactiveTraps()
+{
+	InitiallyInactiveTrapsOnLevel = 0;
+	TSubclassOf<ATrap> TrapClass;
+	TArray<AActor*> Traps;
+
+	UGameplayStatics::GetAllActorsOfClass(this, TrapClass, Traps);
+	for (AActor* Trap : Traps)
+	{
+		if (Cast<ATrap>(Trap)->IsActive)
+		{
+			InitiallyInactiveTrapsOnLevel++;
+		}
+	}
 }
 
 void AMyFallGameModeBase::CountWorkedTraps()

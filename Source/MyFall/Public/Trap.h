@@ -20,6 +20,9 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool IsActive;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	bool WorkedOnEnemyAtLeastOnce;
 };
