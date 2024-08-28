@@ -5,10 +5,11 @@
 #include "CoreMinimal.h"
 #include "EnhancedInputComponent.h"
 #include "GameFramework/Character.h"
+#include "Interaction.h"
 #include "CPPBoris.generated.h"
 
 UCLASS()
-class MYFALL_API ACPPBoris : public ACharacter
+class MYFALL_API ACPPBoris : public ACharacter, public IInteraction
 {
 	GENERATED_BODY()
 

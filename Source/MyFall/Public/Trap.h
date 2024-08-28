@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Interaction.h"
 #include "Trap.generated.h"
 
 UCLASS()
-class MYFALL_API ATrap : public AActor
+class MYFALL_API ATrap : public AActor, public IInteraction
 {
 	GENERATED_BODY()
 	
