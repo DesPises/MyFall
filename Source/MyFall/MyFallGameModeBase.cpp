@@ -22,6 +22,7 @@ void AMyFallGameModeBase::BeginPlay()
 	
 	CountCollectiblesOnLevel();
 	CountInactiveTraps();
+
 }
 
 void AMyFallGameModeBase::OpenNextLevel()

@@ -17,6 +17,6 @@ class MYFALL_API IInteraction
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void Interact();
 };
