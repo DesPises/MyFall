@@ -41,13 +41,13 @@ void AMyFallPlayerController::HandlePause()
 		if (UGameplayStatics::IsGamePaused(this))
 		{
 			UGameplayStatics::SetGamePaused(this, false);
-			MyFallGameModeBase->SetInputModeGame();
+			SetInputModeGame();
 			DestroyPauseMenuWidgets();
 		}
 		else
 		{
 			UGameplayStatics::SetGamePaused(this, true);
-			MyFallGameModeBase->SetInputModeUI();
+			SetInputModeUI();
 			PauseWidget = CreateWidget(this, PauseWidgetClass);
 			if (PauseWidget)
 			{
@@ -55,6 +55,11 @@ void AMyFallPlayerController::HandlePause()
 			}
 		}
 	}
+}
+
+void AMyFallPlayerController::HandleMove()
+{
+	
 }
 
 void AMyFallPlayerController::OnPossess(APawn* aPawn)
@@ -75,6 +80,12 @@ void AMyFallPlayerController::OnPossess(APawn* aPawn)
 		EnhancedInputComponent->BindAction(ActionPause, ETriggerEvent::Started,
 			this, &AMyFallPlayerController::HandlePause);
 	}
+
+	if (ActionMove)
+	{
+		EnhancedInputComponent->BindAction(ActionMove, ETriggerEvent::Triggered,
+			this, &AMyFallPlayerController::HandleMove);
+	}
 }
 
 void AMyFallPlayerController::SetInputMappingContext()
@@ -84,6 +95,18 @@ void AMyFallPlayerController::SetInputMappingContext()
 	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer());
 	Subsystem->ClearAllMappings();
 	Subsystem->AddMappingContext(InputMappingContext, 0);
+}
+
+void AMyFallPlayerController::SetInputModeUI()
+{
+	SetInputMode(FInputModeUIOnly());
+	bShowMouseCursor = true;
+}
+
+void AMyFallPlayerController::SetInputModeGame()
+{
+	SetInputMode(FInputModeGameOnly());
+	bShowMouseCursor = false;
 }
 
 void AMyFallPlayerController::CreateWinScreen()

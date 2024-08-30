@@ -15,7 +15,7 @@ UCLASS()
 class MYFALL_API AMyFallPlayerController : public APlayerController
 {
 	GENERATED_BODY()
-	
+
 protected:
 	UFUNCTION(BlueprintCallable)
 	virtual void BeginPlay() override;
@@ -28,6 +28,9 @@ protected:
 	UFUNCTION()
 	void HandlePause();
 
+	UFUNCTION()
+	void HandleMove();
+
 	UPROPERTY(BlueprintReadOnly)
 	AMyFallGameModeBase* MyFallGameModeBase;
 
@@ -37,6 +40,13 @@ public:
 	class UInputMappingContext* InputMappingContext;
 
 	void SetInputMappingContext();
+
+	// Input modes
+	UFUNCTION(BlueprintCallable)
+	void SetInputModeUI();
+
+	UFUNCTION(BlueprintCallable)
+	void SetInputModeGame();
 
 	// Widgets
 	UPROPERTY(BlueprintReadWrite)
@@ -71,6 +81,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	UInputAction* ActionPause = nullptr;
+
+	UPROPERTY(EditDefaultsOnly)
+	UInputAction* ActionMove = nullptr;
 
 
 	UPROPERTY(EditDefaultsOnly)

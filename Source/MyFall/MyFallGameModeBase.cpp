@@ -14,15 +14,15 @@ void AMyFallGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	SetInputModeGame();
-	
 	// Defaults
 	PlayerCharacterRef = Cast<ACPPBoris>(UGameplayStatics::GetPlayerCharacter(this, 0));
 	PlayerControllerRef = Cast<AMyFallPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
 	
+	// Statistics
 	CountCollectiblesOnLevel();
-	CountInactiveTraps();
 
+	// Level task
+	CountInactiveTraps();
 }
 
 void AMyFallGameModeBase::OpenNextLevel()
@@ -71,20 +71,6 @@ void AMyFallGameModeBase::StartLevelTransition(const UWorld* NextLevelRef, const
 void AMyFallGameModeBase::ReadyForLevelTransition()
 {
 	WaitingForLevelTransition = true;
-}
-
-void AMyFallGameModeBase::SetInputModeUI()
-{
-	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(this, 0);
-	PlayerController->SetInputMode(FInputModeUIOnly());
-	PlayerController->bShowMouseCursor = true;
-}
-
-void AMyFallGameModeBase::SetInputModeGame()
-{
-	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(this, 0);
-	PlayerController->SetInputMode(FInputModeGameOnly());
-	PlayerController->bShowMouseCursor = false;
 }
 
 void AMyFallGameModeBase::CountCollectiblesOnLevel()

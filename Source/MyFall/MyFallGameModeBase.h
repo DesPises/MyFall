@@ -20,8 +20,10 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+	// Music
 	ASoundtrackManager* SoundtrackManager;
 
+	// Player, PlayerController
 	ACPPBoris* PlayerCharacterRef;
 	AMyFallPlayerController* PlayerControllerRef;
 
@@ -40,13 +42,6 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	TSoftObjectPtr<UWorld> NextLevel;
-
-	// Input modes
-	UFUNCTION(BlueprintCallable)
-	void SetInputModeUI();
-
-	UFUNCTION(BlueprintCallable)
-	void SetInputModeGame();
 
 	// Statistics
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Statistics")
