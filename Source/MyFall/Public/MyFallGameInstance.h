@@ -14,6 +14,8 @@ class MYFALL_API UMyFallGameInstance : public UGameInstance
 	GENERATED_BODY()
 	
 public:
+	// Settings save object
+
 	UFUNCTION(BlueprintCallable)
 	void SaveSettings();
 

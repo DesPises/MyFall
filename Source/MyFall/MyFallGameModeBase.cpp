@@ -57,7 +57,7 @@ void AMyFallGameModeBase::StartLevelTransition(const UWorld* NextLevelRef, const
 	// Count worked traps for end level statistics
 	CountWorkedTraps();
 
-	// Crteate win screen
+	// Create win screen
 	if (PlayerControllerRef)
 	{
 		PlayerControllerRef->CreateWinScreen();
