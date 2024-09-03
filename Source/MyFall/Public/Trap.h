@@ -8,19 +8,14 @@
 #include "Trap.generated.h"
 
 UCLASS()
-class MYFALL_API ATrap : public AActor, public IInteraction
+class MYFALL_API ATrap : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	ATrap();
 
-protected:
-	virtual void BeginPlay() override;
-
 public:	
-	virtual void Tick(float DeltaTime) override;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool IsActive;
 

@@ -5,19 +5,8 @@
 
 ATrap::ATrap()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 }
 
-void ATrap::BeginPlay()
-{
-	Super::BeginPlay();
-	
-}
-
-void ATrap::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
 

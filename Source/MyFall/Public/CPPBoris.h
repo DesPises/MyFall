@@ -8,6 +8,18 @@
 #include "Interaction.h"
 #include "CPPBoris.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInteractionStoppedDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInteractDelegate);
+
+UENUM(BlueprintType)
+enum class EInteractibleTypes : uint8
+{
+	None			UMETA(DisplayName = "None"),
+	Trap			UMETA(DisplayName = "Trap"),
+	Hideout			UMETA(DisplayName = "Hideout"),
+	DunkEasterEgg	UMETA(DisplayName = "DunkEasterEgg"),
+};
+
 UCLASS()
 class MYFALL_API ACPPBoris : public ACharacter, public IInteraction
 {
@@ -15,6 +27,14 @@ class MYFALL_API ACPPBoris : public ACharacter, public IInteraction
 
 public:
 	ACPPBoris();
+
+	// Delegate for animation blueprint to stop "setting trap" sounds
+	UPROPERTY(BlueprintAssignable)
+	FOnInteractionStoppedDelegate StoppedInteraction;
+
+	// Delegate for interaction with trap
+	UPROPERTY(BlueprintAssignable)
+	FOnInteractionStoppedDelegate Interact;
 
 protected:
 	virtual void BeginPlay() override;
@@ -28,6 +48,17 @@ protected:
 	void TryToClimb(const FHitResult& OutHit);
 	
 	void HandleSpecialJumpAbility();
+
+	// Interaction
+	void HandleInteraction();
+	void OnInteractSucceded();
+	void OnInteractionStopped();
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void StopGrabbing();
+
+	UPROPERTY(EditDefaultsOnly)
+	UAnimMontage* SetTrapAnimMontage;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "SFX")
 	USoundBase* JumpShout = nullptr;
@@ -57,6 +88,8 @@ public:
 
 	UFUNCTION()
 	void HandleJump();
+
+	virtual void Landed(const FHitResult& Hit) override;
 
 	UFUNCTION()
 	void HandleLook(const FInputActionValue& Value);
@@ -124,9 +157,6 @@ public:
 	float Pitch;
 
 	UPROPERTY(BlueprintReadWrite, Category = "Parameters")
-	float GrabSocketZDefault;
-
-	UPROPERTY(BlueprintReadWrite, Category = "Parameters")
 	float YawOutput;
 
 	UPROPERTY(BlueprintReadWrite, Category = "Parameters")
@@ -147,6 +177,13 @@ public:
 	// Components
 	UPROPERTY(BlueprintReadWrite, Category = "Components")
 	UPrimitiveComponent* RopePartRef;
+
+	UPROPERTY(BlueprintReadWrite)
+	EInteractibleTypes AvailableInteractible = EInteractibleTypes::None;
+
+	// Easter egg
+	UFUNCTION(BlueprintImplementableEvent)
+	void PerformDunkEasterEgg();
 
 private:
 	// Input

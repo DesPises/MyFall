@@ -11,16 +11,3 @@ ALevelFinish::ALevelFinish()
 	BoxCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollision"));
 	SetRootComponent(BoxCollision);
 }
-
-void ALevelFinish::BeginPlay()
-{
-	Super::BeginPlay();
-	
-}
-
-void ALevelFinish::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
-

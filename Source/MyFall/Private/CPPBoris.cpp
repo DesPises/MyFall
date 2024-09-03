@@ -16,6 +16,8 @@ void ACPPBoris::BeginPlay()
 {
 	Super::BeginPlay();
 
+	EnableMovement();
+
 	// Rotate camera to look at face side
 	auto PlayerController = UGameplayStatics::GetPlayerController(this, 0);
 	PlayerController->SetControlRotation(FRotator(-20, GetActorRotation().Yaw + 180, 0));
@@ -36,7 +38,8 @@ void ACPPBoris::BeginPlay()
 	}
 	if (ActionInteract)
 	{
-
+		EnhancedInputComponent->BindAction(ActionInteract, ETriggerEvent::Triggered, this, &ACPPBoris::HandleInteraction);
+		EnhancedInputComponent->BindAction(ActionInteract, ETriggerEvent::Completed, this, &ACPPBoris::OnInteractionStopped);
 	}
 	if (ActionGrab)
 	{
@@ -77,6 +80,58 @@ void ACPPBoris::HandleSpecialJumpAbility()
 		}
 	}
 	JumpMaxCount = 1;
+}
+
+void ACPPBoris::HandleInteraction()
+{
+	if (CanInteract)
+	{
+		StopGrabbing();
+
+		switch (AvailableInteractible)
+		{
+		case EInteractibleTypes::Trap:
+			if (IsSettingTrap == false)
+			{
+				AvailableInteractible = EInteractibleTypes::None;
+				IsSettingTrap = true;
+				CanMove = false;
+				float AnimationTime = PlayAnimMontage(SetTrapAnimMontage, 1);
+				FTimerHandle TimerHandle;
+				GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &ACPPBoris::OnInteractSucceded, AnimationTime, false);
+			}
+			break;
+
+		case EInteractibleTypes::Hideout:
+
+			break;
+
+		case EInteractibleTypes::DunkEasterEgg:
+			AvailableInteractible = EInteractibleTypes::None;
+			PerformDunkEasterEgg();
+			break;
+		}
+	}
+}
+
+void ACPPBoris::OnInteractSucceded()
+{
+	Interact.Broadcast();
+	OnInteractionStopped();
+}
+
+void ACPPBoris::OnInteractionStopped()
+{
+	if (IsSettingTrap)
+	{
+		IsSettingTrap = false;
+		CanMove = true;
+		StoppedInteraction.Broadcast();
+		if (SetTrapAnimMontage)
+		{
+			StopAnimMontage(SetTrapAnimMontage);
+		}
+	}
 }
 
 void ACPPBoris::Tick(float DeltaTime)
@@ -122,6 +177,12 @@ void ACPPBoris::HandleJump()
 	{
 		StopHiding();
 	}
+}
+
+void ACPPBoris::Landed(const FHitResult& Hit)
+{
+	Super::Landed(Hit);
+	IsJumping = false;
 }
 
 void ACPPBoris::HandleLook(const FInputActionValue& Value)

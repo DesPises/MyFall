@@ -16,15 +16,10 @@ class MYFALL_API ALevelFinish : public AActor
 public:	
 	ALevelFinish();
 
-protected:
-	virtual void BeginPlay() override;
-
 private:
 	UBoxComponent* BoxCollision = nullptr;
 
 public:	
-	virtual void Tick(float DeltaTime) override;
-
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LevelInfo")
 	int LevelIndex;
 
