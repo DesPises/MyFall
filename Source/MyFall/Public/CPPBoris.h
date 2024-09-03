@@ -44,6 +44,9 @@ protected:
 	UFUNCTION(BlueprintNativeEvent)
 	void StopHiding();
 
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void PlayHidingAnim();
+
 	UFUNCTION(BlueprintImplementableEvent)
 	void TryToClimb(const FHitResult& OutHit);
 	
@@ -51,7 +54,7 @@ protected:
 
 	// Interaction
 	void HandleInteraction();
-	void OnInteractSucceded();
+	void OnInteractionSucceded();
 	void OnInteractionStopped();
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
@@ -193,4 +196,10 @@ private:
 	// Capsule trace
 	UFUNCTION()
 	void CapsuleTrace(FHitResult& OutHit);
+
+	// Setting trap
+	void StartSettingTrap();
+
+	// Hiding
+	void Hide();
 };

@@ -22,6 +22,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UAudioComponent* AudioComponent;
 
+	UFUNCTION(BlueprintCallable)
+	void LowPitch();
+
+	UFUNCTION(BlueprintCallable)
+	void NormalPitch();
+
+	UFUNCTION(BlueprintCallable)
+	void HighPitch();
+
+	UFUNCTION(BlueprintCallable)
+	void StopMusic();
+
 protected:
 	virtual void BeginPlay() override;
 

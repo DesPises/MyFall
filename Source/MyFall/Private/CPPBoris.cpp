@@ -5,6 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "InputAction.h"
+#include "SoundtrackManager.h"
 
 ACPPBoris::ACPPBoris()
 {
@@ -93,17 +94,15 @@ void ACPPBoris::HandleInteraction()
 		case EInteractibleTypes::Trap:
 			if (IsSettingTrap == false)
 			{
-				AvailableInteractible = EInteractibleTypes::None;
-				IsSettingTrap = true;
-				CanMove = false;
-				float AnimationTime = PlayAnimMontage(SetTrapAnimMontage, 1);
-				FTimerHandle TimerHandle;
-				GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &ACPPBoris::OnInteractSucceded, AnimationTime, false);
+				StartSettingTrap();
 			}
 			break;
 
 		case EInteractibleTypes::Hideout:
-
+			if (IsHiding == false)
+			{
+				Hide();
+			}
 			break;
 
 		case EInteractibleTypes::DunkEasterEgg:
@@ -114,7 +113,7 @@ void ACPPBoris::HandleInteraction()
 	}
 }
 
-void ACPPBoris::OnInteractSucceded()
+void ACPPBoris::OnInteractionSucceded()
 {
 	Interact.Broadcast();
 	OnInteractionStopped();
@@ -217,6 +216,35 @@ void ACPPBoris::CapsuleTrace(FHitResult& OutHit)
 		OutHit,
 		true
 	);
+}
+
+void ACPPBoris::StartSettingTrap()
+{
+	AvailableInteractible = EInteractibleTypes::None;
+	IsSettingTrap = true;
+	CanMove = false;
+	float AnimationTime = PlayAnimMontage(SetTrapAnimMontage, 1);
+	FTimerHandle TimerHandle;
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &ACPPBoris::OnInteractionSucceded, AnimationTime, false);
+}
+
+void ACPPBoris::Hide()
+{
+	AvailableInteractible = EInteractibleTypes::None;
+	IsHiding = true;
+	CanMove = false;
+	CanGrab = false;
+	
+	// Lower the music
+	ASoundtrackManager* SoundtrackManager = 
+		Cast<ASoundtrackManager>(UGameplayStatics::GetActorOfClass(
+			this, ASoundtrackManager::StaticClass()));
+	if (SoundtrackManager)
+	{
+		SoundtrackManager->LowPitch();
+	}
+
+	PlayHidingAnim();
 }
 
 void ACPPBoris::EnableMovement()

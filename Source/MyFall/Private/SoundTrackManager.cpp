@@ -27,6 +27,29 @@ void ASoundtrackManager::FadeMusicOut()
 	}
 }
 
+void ASoundtrackManager::LowPitch()
+{
+	AudioComponent->SetPitchMultiplier(0.98f);
+	AudioComponent->SetVolumeMultiplier(0.5f);
+}
+
+void ASoundtrackManager::NormalPitch()
+{
+	AudioComponent->SetPitchMultiplier(1.f);
+	AudioComponent->SetVolumeMultiplier(1.f);
+}
+
+void ASoundtrackManager::HighPitch()
+{
+	AudioComponent->SetPitchMultiplier(1.01f);
+	AudioComponent->SetVolumeMultiplier(0.5f);
+}
+
+void ASoundtrackManager::StopMusic()
+{
+	AudioComponent->FadeOut(1.f, 0.f);
+}
+
 void ASoundtrackManager::BeginPlay()
 {
 	Super::BeginPlay();
