@@ -50,7 +50,7 @@ void ACPPBoris::BeginPlay()
 
 void ACPPBoris::StopHiding_Implementation()
 {
-
+	UnhideD.Broadcast();
 }
 
 void ACPPBoris::HandleSpecialJumpAbility()
@@ -245,6 +245,7 @@ void ACPPBoris::Hide()
 	}
 
 	PlayHidingAnim();
+	HideD.Broadcast();
 }
 
 void ACPPBoris::EnableMovement()

@@ -10,6 +10,8 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInteractionStoppedDelegate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInteractDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnHideDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUnHideDelegate);
 
 UENUM(BlueprintType)
 enum class EInteractibleTypes : uint8
@@ -35,6 +37,14 @@ public:
 	// Delegate for interaction with trap
 	UPROPERTY(BlueprintAssignable)
 	FOnInteractionStoppedDelegate Interact;
+
+	// Delegate for interaction with trap
+	UPROPERTY(BlueprintAssignable)
+	FOnHideDelegate HideD;
+
+	// Delegate for interaction with trap
+	UPROPERTY(BlueprintAssignable)
+	FOnUnHideDelegate UnhideD;
 
 protected:
 	virtual void BeginPlay() override;
