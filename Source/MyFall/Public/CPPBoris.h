@@ -19,21 +19,47 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-public:	
+	// Gameplay mechanics
+
+	UFUNCTION(BlueprintNativeEvent)
+	void StopHiding();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void TryToClimb(const FHitResult& OutHit);
+	
+	void HandleSpecialJumpAbility();
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "SFX")
+	USoundBase* JumpShout = nullptr;
+
+public:
 	virtual void Tick(float DeltaTime) override;
 
 	// Input
-	UFUNCTION(BlueprintCallable)
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	UFUNCTION(BlueprintCallable)
-	void Move(float XValue, float YValue);
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UEnhancedInputComponent* EnhancedInputComponent = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
 	UInputAction* ActionMove = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
+	UInputAction* ActionJump = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
+	UInputAction* ActionLook = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
+	UInputAction* ActionInteract = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
+	UInputAction* ActionGrab = nullptr;
+
+	UFUNCTION()
+	void HandleMove(const FInputActionValue& Value);
+
+	UFUNCTION()
+	void HandleJump();
+
+	UFUNCTION()
+	void HandleLook(const FInputActionValue& Value);
 
 	UFUNCTION(BlueprintCallable)
 	void EnableMovement();
@@ -121,4 +147,13 @@ public:
 	// Components
 	UPROPERTY(BlueprintReadWrite, Category = "Components")
 	UPrimitiveComponent* RopePartRef;
+
+private:
+	// Input
+	UPROPERTY()
+	UEnhancedInputComponent* EnhancedInputComponent = nullptr;
+
+	// Capsule trace
+	UFUNCTION()
+	void CapsuleTrace(FHitResult& OutHit);
 };

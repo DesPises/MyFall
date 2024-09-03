@@ -4,6 +4,7 @@
 #include "CPPBoris.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "InputAction.h"
 
 ACPPBoris::ACPPBoris()
 {
@@ -18,6 +19,64 @@ void ACPPBoris::BeginPlay()
 	// Rotate camera to look at face side
 	auto PlayerController = UGameplayStatics::GetPlayerController(this, 0);
 	PlayerController->SetControlRotation(FRotator(-20, GetActorRotation().Yaw + 180, 0));
+
+	// Setup input
+	EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent);
+	if (ActionMove)
+	{
+		EnhancedInputComponent->BindAction(ActionMove, ETriggerEvent::Triggered, this, &ACPPBoris::HandleMove);
+	}
+	if (ActionJump)
+	{
+		EnhancedInputComponent->BindAction(ActionJump, ETriggerEvent::Started, this, &ACPPBoris::HandleJump);
+	}
+	if (ActionLook)
+	{
+		EnhancedInputComponent->BindAction(ActionLook, ETriggerEvent::Triggered, this, &ACPPBoris::HandleLook);
+	}
+	if (ActionInteract)
+	{
+
+	}
+	if (ActionGrab)
+	{
+
+	}
+}
+
+void ACPPBoris::StopHiding_Implementation()
+{
+
+}
+
+void ACPPBoris::HandleSpecialJumpAbility()
+{
+	// Trace capsule to check if threre's climb or wall jump ledge in front of player
+	FHitResult OutHitResult;
+	CapsuleTrace(OutHitResult);
+
+	// If there's a ledge, perform special ability
+	if (IsValid(OutHitResult.GetActor()))
+	{
+		// Tag of BP_WallJumpLedge
+		if (OutHitResult.GetActor()->ActorHasTag("WallJump"))
+		{
+			if (JumpMaxCount == 1)
+			{
+				UGameplayStatics::PlaySound2D(this, JumpShout);
+			}
+
+			JumpMaxCount = 2;
+			return;
+		}
+
+		// Tag of BP_ClimbLedge
+		if (OutHitResult.GetActor()->ActorHasTag("Climb"))
+		{
+			TryToClimb(OutHitResult);
+		}
+	}
+	JumpMaxCount = 1;
 }
 
 void ACPPBoris::Tick(float DeltaTime)
@@ -31,29 +90,72 @@ void ACPPBoris::Tick(float DeltaTime)
 	}
 }
 
-// Input
-
-void ACPPBoris::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-}
-
-void ACPPBoris::Move(float XValue, float YValue)
+void ACPPBoris::HandleMove(const FInputActionValue& Value)
 {
 	if (CanMove)
 	{
-		auto ControlRotation = GetControlRotation();
-		auto HorizontalInput = UKismetMathLibrary::GetRightVector(FRotator(0, ControlRotation.Yaw, ControlRotation.Roll));
-		auto VerticalInput = UKismetMathLibrary::GetForwardVector(FRotator(0, ControlRotation.Yaw, 0));
-		AddMovementInput(HorizontalInput, XValue);
-		AddMovementInput(VerticalInput, YValue);
+		FRotator ControlRotation = GetControlRotation();
+		FVector RightVector = UKismetMathLibrary::GetRightVector(FRotator(0, ControlRotation.Yaw, ControlRotation.Roll));
+		FVector ForwardVector = UKismetMathLibrary::GetForwardVector(FRotator(0, ControlRotation.Yaw, 0));
+		FVector2D MovementInputVector = Value.Get<FVector2D>();
+
+		AddMovementInput(RightVector, MovementInputVector.X);
+		AddMovementInput(ForwardVector, MovementInputVector.Y);
 		// Swing on a rope
 		if (IsValid(RopePartRef))
 		{
-			RopePartRef->AddImpulse(VerticalInput * 500 * YValue, NAME_None, false);
+			RopePartRef->AddImpulse(ForwardVector * 500 * MovementInputVector.Y, NAME_None, false);
 		}
 	}
+}
+
+void ACPPBoris::HandleJump()
+{
+	if (CanMove)
+	{
+		HandleSpecialJumpAbility();
+
+		Jump();
+		IsJumping = true;
+	}
+	else
+	{
+		StopHiding();
+	}
+}
+
+void ACPPBoris::HandleLook(const FInputActionValue& Value)
+{
+	FVector2D LookInputVector = Value.Get<FVector2D>();
+
+	AddControllerYawInput(LookInputVector.X * Sensitivity);
+
+	float PitchValue = LookInputVector.Y * Sensitivity;
+	if (GrabbedObjectIsClipping)
+	{
+		PitchValue = FMath::Clamp(PitchValue, -1, 0);
+	}
+	AddControllerPitchInput(PitchValue);
+}
+
+void ACPPBoris::CapsuleTrace(FHitResult& OutHit)
+{
+	FVector CapsuleCenter = GetActorLocation() + GetActorForwardVector() * 40.f + FVector(0, 0, -20);
+	TArray<AActor*> IgnoreActors;
+
+	UKismetSystemLibrary::CapsuleTraceSingle(
+		this,
+		CapsuleCenter,
+		CapsuleCenter,
+		20.f,
+		55.f,
+		ETraceTypeQuery::TraceTypeQuery3,
+		false,
+		IgnoreActors,
+		EDrawDebugTrace::None,
+		OutHit,
+		true
+	);
 }
 
 void ACPPBoris::EnableMovement()

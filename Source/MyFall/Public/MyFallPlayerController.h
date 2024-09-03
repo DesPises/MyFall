@@ -22,15 +22,6 @@ protected:
 
 	virtual void OnPossess(APawn* aPawn);
 
-	UFUNCTION()
-	void TriggerLevelTransition();
-
-	UFUNCTION()
-	void HandlePause();
-
-	UFUNCTION()
-	void HandleMove();
-
 	UPROPERTY(BlueprintReadOnly)
 	AMyFallGameModeBase* MyFallGameModeBase;
 
@@ -82,9 +73,11 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	UInputAction* ActionPause = nullptr;
 
-	UPROPERTY(EditDefaultsOnly)
-	UInputAction* ActionMove = nullptr;
+	UFUNCTION()
+	void TriggerLevelTransition();
 
+	UFUNCTION()
+	void HandlePause();
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UUserWidget> PauseWidgetClass;

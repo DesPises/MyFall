@@ -6,7 +6,7 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include <EnhancedInputSubsystems.h>
 #include "Blueprint/UserWidget.h"
-
+#include "InputActionValue.h"
 
 void AMyFallPlayerController::BeginPlay()
 {
@@ -57,17 +57,13 @@ void AMyFallPlayerController::HandlePause()
 	}
 }
 
-void AMyFallPlayerController::HandleMove()
-{
-	
-}
-
 void AMyFallPlayerController::OnPossess(APawn* aPawn)
 {
 	Super::OnPossess(aPawn);
 
-	// Handle Level Transition input
 	EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent);
+	
+	// Handle Level Transition input
 	if (ActionJump)
 	{
 		EnhancedInputComponent->BindAction(ActionJump, ETriggerEvent::Completed,
@@ -80,19 +76,11 @@ void AMyFallPlayerController::OnPossess(APawn* aPawn)
 		EnhancedInputComponent->BindAction(ActionPause, ETriggerEvent::Started,
 			this, &AMyFallPlayerController::HandlePause);
 	}
-
-	if (ActionMove)
-	{
-		EnhancedInputComponent->BindAction(ActionMove, ETriggerEvent::Triggered,
-			this, &AMyFallPlayerController::HandleMove);
-	}
 }
 
 void AMyFallPlayerController::SetInputMappingContext()
 {
-	APlayerController* PC = Cast<APlayerController>(UGameplayStatics::GetPlayerController(this, 0));
-
-	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer());
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
 	Subsystem->ClearAllMappings();
 	Subsystem->AddMappingContext(InputMappingContext, 0);
 }
